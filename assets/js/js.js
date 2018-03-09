@@ -1,5 +1,5 @@
 ////// ID's from html////////
-// #modalTital = tital for initial modal window
+// #startBox = row that hold The original input fields
 // #location = location input search bar
 // #bar = checkbox for bars
 // #restaurant = checkbox for restaurants
@@ -13,6 +13,33 @@ $('#sandbox-container .input-group.date').datepicker({
 });
 // end calender
 
+var autocomplete = new google.maps.places.Autocomplete(input,{types: ['(cities)']});
+google.maps.event.addListener(autocomplete, 'place_changed', function(){
+	 var place = autocomplete.getPlace();
+})
+
+function getMap () {
+	var options = {
+		zoom: 8,
+		center: place
+	}
+	var map = new google.maps.Map(document.getElementById('location'), options);
+}
+
+function addMarker (place){
+	var marker = new google.maps.Marker({
+		position: place,
+		map: map,
+		icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+	})
+}
+
+// }
+
+// End AutoComplete ADD
+
+
+
 // globally scoped variables
 var eventLoc;
 var datePicker;
@@ -22,21 +49,23 @@ var modalTital = $('#modalTitle');
 var displayEvents = $('#eventDump');
 
 // variables to add to our card
-var card = $('div').addClass('card');
-var cardBody = $('div').addClass("card-body");
-var cardTitle = $('<h5>').addClass('card-title');
-var cardFooter = $("<div>").addClass("card-footer");
-
-var p9 = $('<p>').addClass('col-md-9');
-var newRow = $('<div>').addClass("row")
 
 
 // on load of the document
 $(document).ready(function () {
+
 	// add event listener to the btnStart
 	$('#btnStart').on("click", function () {
 		// keep it from submitting blank
 		event.preventDefault();
+
+		var card = $('<div>').addClass('card');
+		var cardBody = $('<div>').addClass("card-body");
+		var cardTitle = $('<h5>').addClass('card-title');
+		var cardFooter = $("<div>").addClass("card-footer");
+		
+		var p9 = $('<p>').addClass('col-md-9');
+		var newRow = $('<div>').addClass("row")
 		// save the information in future variables
 		eventLoc = $('#location').val();
 		datePicker = $('#datePicker').val();
@@ -70,7 +99,6 @@ $(document).ready(function () {
 				} else {
 					artist = cardTitle.text(eventArr.title);
 				}
-
 				// building items in the row
 				// create an image
 				var image;
@@ -107,10 +135,10 @@ $(document).ready(function () {
 					// add a class of i so we reference specific card
 					.attr("data-number", [i])
 					// give data attributes of lat and long to reference in the second API call later
-					.data("data-lat", latitude)
-					.data("data-long", longitude)
+					.attr("data-lat", eventArr.latitude)
+					.attr("data-long", eventArr.longitude);
 				// append displayEvents with the new Row
-				displayEvents.append(newRow);
+				displayEvents.append(card);
 			}
 		})
 
@@ -118,3 +146,5 @@ $(document).ready(function () {
 
 	// end of the page function
 });
+
+

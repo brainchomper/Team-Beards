@@ -2,16 +2,23 @@
 ### User will be able to find an event near them. Then find restaurants and bars that are within walking distance.
 ---
 ## Group Members:
-  Alex Butler
-  Joe Calderon
-  John Stuart
+  Alex Butler,
+  Joe Calderon,
+  John Stuart,
   Kevin Smith
 ---
 ## APIs Used
   [Google Locations:] (https://developers.google.com/places/)
       API Key: AIzaSyCuqtmYRp2PRxve9eVhJ3u1D1Ohxr5V81Y
 
+Google Places-
+
   [Walk Score:] (https://www.walkscore.com/professional/api.php)
+
+Eventful-
+
+BootStrap DatePicker-
+
 ---
 ## Breakdown of Tasks
 ### HTML Framework & CSS
