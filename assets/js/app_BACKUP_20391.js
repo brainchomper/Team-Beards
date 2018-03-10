@@ -13,6 +13,7 @@ $('#sandbox-container .input-group.date').datepicker({
 });
 // end calender
 
+<<<<<<< HEAD
 // AutoComplete - Joe
 var input = $('#location')[0];
 var autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
@@ -20,6 +21,16 @@ google.maps.event.addListener(autocomplete, 'place_changed', function () {
 	var place = autocomplete.getPlace();
 })
 // End AutoComplete ADD
+
+
+=======
+// // AutoComplete - Joe
+// var input = $('#location')[0];
+// var autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
+// google.maps.event.addListener(autocomplete, 'place_changed', function () {
+// 	var place = autocomplete.getPlace();
+// })
+// // End AutoComplete ADD
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('mapDump'), {
@@ -102,6 +113,8 @@ function initMap() {
         autocomplete.setOptions({strictBounds: this.checked});
       });
 }
+>>>>>>> df3702ff8d7932a4d964d41c50a4914192052684
+
 // globally scoped variables
 var eventLoc;
 var datePicker;
@@ -120,7 +133,10 @@ $(document).ready(function () {
 	$('#btnStart').on("click", function () {
 		// keep it from submitting blank
 		event.preventDefault();
+<<<<<<< HEAD
 $('#eventDump').empty();
+=======
+
 		var card = $('<div>').addClass('card');
 		var cardBody = $('<div>').addClass("card-body");
 		var cardTitle = $('<h5>').addClass('card-title');
@@ -128,6 +144,7 @@ $('#eventDump').empty();
 
 		var p9 = $('<p>').addClass('col-md-9');
 		var newRow = $('<div>').addClass("row")
+>>>>>>> df3702ff8d7932a4d964d41c50a4914192052684
 		// save the information in future variables
 		eventLoc = $('#location').val();
 		datePicker = $('#datePicker').val();
