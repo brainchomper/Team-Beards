@@ -32,9 +32,15 @@
 						<!-- Form -->
 						<form name="">
 							<!-- Heading -->
-							<h3 class="dark-grey-text text-center">
-								<strong>Get Started Planning Your Night Out!</strong>
-							</h3>
+							
+								<div class="textwrite">
+									<h1 class="dark-grey-text text-center">
+											<p class="typewrite" data-period="500" data-type='[ "Want To See A Show.", "Let&#8217s Grab A Drink", "Let&#8217s Do Both." ]'>
+												<span class="wrap"></span>
+											</p>
+										</h1>
+									</div>
+							
 							<hr>
 
 							<div class="input-group input-group-lg">
@@ -80,49 +86,18 @@
 
 			<!-- /container1 -->
 			<div class="card-group" id="eventDump">
-<!--Panel-->
-<!-- end card -->
-<!--/.Panel-->
+
+
+
 			</div>
+			<!-- end card -->
+			<!--/.Panel-->
 
-
-			<div class="container rounded">
-				<div class="row">
-					<div class="col-sm-12">
-						<h1>This is where the events dump out</h1>
-						<div class="col-sm-12">
-							<table class="table table-responsive">
-								<!--Data Heading Main Row  -->
-								<thead>
-									<!-- Add Row with <tr> <th> is for table heading-->
-									<tr>
-										<th>Image</th>
-										<th>Artist</th>
-										<th>Bio</th>
-										<th>Venue Name</th>
-										<th>GeoTag</th>
-										<th>Start Time</th>
-										<th>Buy Tickets URL</th>
-									</tr>
-								</thead>
-								<!-- Place to pull data from database and where submitted values will populate -->
-								<tbody id="displayEvents">
-
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-			<p></p>
 			<!-- container2 -->
 			<div class="container rounded" id="mapDump">
-				<div class="row">
-					<div class="embed-responsive embed-responsive-21by9">
-						<iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d404318.68277791917!2d-112.08916928533604!3d40.699972592259385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smaps!5e0!3m2!1sen!2sus!4v1520390401355"></iframe>
-					</div>
 
-				</div>
+
+				</div> -->
 			</div>
 			<!-- container3 -->
 			<!-- container3 -->
@@ -141,9 +116,13 @@
 	<script src="./assets/js/popper.min.js"></script>
 	<script src="./assets/js/bootstrap-datepicker.js"></script>
 	<script src="./assets/js/eventful-api.js"></script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&libraries=places&language=en&key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg"></script>
+
+	<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&libraries=places&language=en&key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg"></script> -->
 	<script type="text/javascript" src="./assets/js/mdb.js"></script>
-	<script src="./assets/js/js.js"></script>
+	<script src="./assets/js/style.js"></script>
+	<script src="./assets/js/app.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg&libraries=places&callback=initMap"
+	async defer></script>
 </body>
 
 </html>

@@ -26,6 +26,13 @@ aside{
 .container{
 	background-color: whitesmoke;
 }
+
+
+#mapDump {
+	height: 300px;
+	width: 100%;
+}
+
 .startBox{
 	margin-top: 25px;
 	margin-bottom: 25px;
