@@ -23,7 +23,6 @@ function initMap() {
 	var bar = document.getElementById('bar');
 	var restaurant = document.getElementById('restaurant');
 
-
 	var autocomplete = new google.maps.places.Autocomplete(input);
 
 	// Bind the map's bounds (viewport) property to the autocomplete object,
@@ -32,6 +31,9 @@ function initMap() {
 	autocomplete.bindTo('bounds', map);
 
 	var infowindow = new google.maps.InfoWindow();
+	var infowindowContent = document.getElementById('infowindow-content');
+	infowindow.setContent(infowindowContent);
+
 	var marker = new google.maps.Marker({
 		map: map,
 		anchorPoint: new google.maps.Point(0, -29)
@@ -85,47 +87,36 @@ function initMap() {
 	setupClickListener('changetype-bar', ['bar']);
 	setupClickListener('changetype-restaurant', ['restaurant']);
 
+
 	// 	});
 }
 // globally scoped variables
 var eventLoc;
 var datePicker;
 
-var modalTital = $('#modalTitle');
-
-var displayEvents = $('#eventDump');
-
-// variables to add to our card
-
+// initialized the moment.js
 
 // on load of the document
 $(document).ready(function () {
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()
-	 })
-	 // Tooltips Initialization
-	 $(function () {
+	})
+	// Tooltips Initialization
+	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()
-	 })
+	})
 
 	var isClass = false;
 	// add event listener to the btnStart
 	$('#btnStart').on("click", function () {
 		// keep it from submitting blank
 		event.preventDefault();
-
-$('#eventDump').empty();
-if (isClass){
-	$('#eventDump').removeClass(smallEvents)
-	isClass = false;
-}
-
-		var card = $('<div>').addClass('card');
-		var cardBody = $('<div>').addClass("card-body");
-		var cardTitle = $('<h5>').addClass('card-title');
-
-		var p9 = $('<p>').addClass('col-md-9');
-		var newRow = $('<div>').addClass("row")
+		// add a loading gif
+		$('#eventDump').empty();
+		if (isClass) {
+			$('#eventDump').removeClass(smallEvents)
+			isClass = false;
+		}
 		// save the information in future variables
 		eventLoc = $('#location').val();
 		datePicker = $('#datePicker').val();
@@ -144,8 +135,8 @@ if (isClass){
 				var card = $('<div>').addClass('card event animated pulse');
 				var cardBody = $('<div>').addClass('card-body');
 				var cardFooter = $('<button>')
-				.addClass('btn primary-color btn-lg btn-block')
-				.text("Learn More About This Event");
+					.addClass('btn primary-color btn-lg btn-block')
+					.text("Learn More About This Event");
 				var cardTitle = $('<h5>').addClass("card-title");
 				var eventArr = eventArray[i];
 				;
@@ -164,8 +155,6 @@ if (isClass){
 				} else {
 					artist = cardTitle.text(eventArr.title);
 				}
-				// building items in the row
-				var newRow = $('<div>').addClass("row")
 				// create an image
 				var image;
 				var tdImage = $('<img>').attr('src', './assets/images/placeholder.png').addClass("img-fluid");
@@ -180,25 +169,23 @@ if (isClass){
 						.addClass('img-fluid');
 				};
 				// Log the Start Time in a p class
-				// var startingTime = moment(eventArr.start_time, "hh:mm A")
-				// var startTime = $('<p>').html(startingTime);
-				// console.log("Start time", startTime);
+				var startingTime = moment(eventArr.start_time).format("dddd, MMMM Do YYYY, h:mm a");
+				var startTime = $('<p>').html(startingTime);
 				// // log the venue name in a p class
 				var venue = $('<p>').html(eventArr.venue_name);
-
-			var selectEvent = $('<button>')
-			.html("Select this event!")
-			.addClass("selectEvent btn danger-color-dark btn-lg btn-block");
+				var selectEvent = $('<button>')
+					.html("Select this event!")
+					.addClass("selectEvent btn success-color-dark btn-lg btn-block");
 				// Build the footer out
 				var url = eventArr.url;
 				var aLink = $('<a>')
-				.attr("href", url)
-				.attr("parent", "blank")
-				.text("Learn More Here!");
+					.attr("href", url)
+					.attr("target", "_blank")
+					.text("Learn More Here!");
 				var tdURL = cardFooter.html(aLink);
 
 				// build the body of the card
-				cardBody.append(cardTitle, tdImage, venue, selectEvent, tdURL);
+				cardBody.append(cardTitle, tdImage, venue, startTime, selectEvent, tdURL);
 				// append the card with the body and
 				card.html(cardBody)
 					// add a class of i so we reference specific card
@@ -210,7 +197,7 @@ if (isClass){
 				$('#eventDump').append(card);
 			};
 		});
-		$('#formID').reset()[0];
+		// put in a reset function
 	});
 
 	$(document).on("click", ".selectEvent", function () {
@@ -223,6 +210,13 @@ if (isClass){
 
 	// end of the page function
 });
+//reset button
+$('#resetBtn').on('click', function(){
+	location.reload();
+});
+// end reset button
+
+
 
 
 
