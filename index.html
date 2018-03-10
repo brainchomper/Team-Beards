@@ -17,7 +17,9 @@
 </head>
 
 <body>
-		<button class="btn danger-color-dark btn-rounded stickyBtn">Restart</button>
+		<button type="button" class="btn danger-color-dark stickyBtn" data-toggle="tooltip" data-placement="top" title="Restart" id="resetBtn">
+				<i class="fas fa-retweet"></i>
+			</button>
 	<nav></nav>
 	<div class="container-fluid">
 		<!-- Container 1 -->
@@ -36,7 +38,7 @@
 							
 								<div class="textwrite">
 									<h1 class="dark-grey-text text-center">
-											<p class="typewrite" data-period="500" data-type='[ "Want To See A Show.", "Let&#8217s Grab A Drink", "Let&#8217s Do Both." ]'>
+											<p class="typewrite" data-period="100" data-type='[ "Want To See A Show.", "Let&#8217s Grab A Drink", "Let&#8217s Do Both." ]'>
 												<span class="wrap"></span>
 											</p>
 										</h1>
@@ -44,7 +46,7 @@
 							
 							<hr>
 
-							<div class="input-group input-group-lg">
+							<div class="input-group input-group-lg" id ="formID">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-lg">Location</span>
 								</div>
@@ -93,15 +95,11 @@
 			<!--/.Panel-->
 
 			<!-- container2 -->
-<<<<<<< HEAD
-		
-=======
 			<div class="container rounded" id="mapDump">
 
 
 				</div> -->
 			</div>
->>>>>>> df3702ff8d7932a4d964d41c50a4914192052684
 			<!-- container3 -->
 			<!-- container3 -->
 
@@ -116,13 +114,13 @@
 	<script src="./assets/js/bootstrap-datepicker.js"></script>
 	<script src="./assets/js/eventful-api.js"></script>
 	<script src ="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/locale/af.js"></script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&libraries=places&language=en&key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg"></script>
+	<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&libraries=places&language=en&key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg"></script>
 
-	<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&libraries=places&language=en&key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg"></script> -->
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&libraries=places&language=en&key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg"></script> -->
 	<script type="text/javascript" src="./assets/js/mdb.js"></script>
 	<script src="./assets/js/style.js"></script>
 	<script src="./assets/js/app.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg&libraries=places&callback=initMap"
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg&libraries=places&query=restaurants&query=bars&callback=initMap"
 	async defer></script>
 </body>
 

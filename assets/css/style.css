@@ -1,7 +1,9 @@
 html{
 	font-family: 'Roboto', sans-serif;
 }
-
+a{
+	color: white;
+}
 body{
 	background-image: url("../images/nightlight.jpg");
 	background-repeat: no-repeat;
@@ -41,12 +43,18 @@ aside{
 .stickyBtn{
 	position: fixed;
 	bottom: 25px;
-	right: 100px;
+	right: 25px;
 }
 #eventDump {
+	margin-top: 20px;
 	display:flex;
 	justify-content: center;
 	flex-wrap: wrap;
+	border-radius: 5px;
+	background: rgba(200, 54, 54, 0);
+}
+.card-title{
+	font-weight: bold;
 }
 .card.event{
 	display:flex;
@@ -56,4 +64,9 @@ aside{
 }
 .card-body {
 	text-align: center;
+}
+
+.smallEvents {
+	overflow-y:auto;
+	height: 317px;
 }
