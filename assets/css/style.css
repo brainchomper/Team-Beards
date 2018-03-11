@@ -69,6 +69,13 @@ aside{
 	text-align: center;
 }
 
+.loadingGif {
+	background-color: white;
+	border-radius: 5px;
+	margin: 10px;
+	display:block;
+}
+
 .smallEvents {
 	overflow-y:auto;
 	height: 317px;

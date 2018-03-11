@@ -8,11 +8,6 @@
 // #mapDump = data from google places
 
 //-------------------------------------//
-//Bootstrap Calender Picker -- https://github.com/uxsolutions/bootstrap-datepicker//
-$('#sandbox-container .input-group.date').datepicker({
-});
-// end calender
-
 // AutoComplete - Joe
 var input = $('#location')[0];
 var autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
@@ -107,81 +102,101 @@ var eventLoc;
 var datePicker;
 var isClass = false;
 
-function checkClass(){
+function checkClass() {
 	if (!isClass) {
-	$('#eventDump').removeClass('smallEvents');
-	isClass = true;
-} else {
-	$('#eventDump').addClass('smallEvents');
-	isClass = false;
-}};
-function emptyForm(){
+		$('#eventDump').removeClass('smallEvents');
+		isClass = true;
+	} else {
+		$('#eventDump').addClass('smallEvents');
+		isClass = false;
+	}
+};
+function emptyForm() {
 	$('#location').val('');
 	$('#datePicker').val('');
 }
 
-function cardFactoryEvents(event){
+function cardFactoryEvents(event) {
+	// variables to put data on the page
 	var card = $('<div>').addClass('card event animated pulse');
-				var cardBody = $('<div>').addClass('card-body');
-				var cardFooter = $('<button>')
-					.addClass('btn primary-color btn-lg btn-block')
-					.text("Learn More About This Event");
-				var cardTitle = $('<h5>').addClass("card-title");
-				// making the card header
-				// shortcut variable
-				var performers = event.performers;
-				var artist;
-				// if there are performers
-				if (performers) {
-					if (Array.isArray(performers.performer)) {
-						artist = cardTitle.text(performers.performer[0].name);
-					} else {
-						artist = cardTitle.text(performers.performer.name)
-							;
-					}
-				} else {
-					artist = cardTitle.text(event.title);
-				}
-				// create an image
-				var image;
-				var tdImage = $('<img>').attr('src', './assets/images/placeholder.png').addClass("img-fluid");
-				// if the image exists
-				if (event.image) {
-					image = event.image.medium;
-					// give it attributes of an src and width
-					tdImage = $('<img>')
-						.attr("src", image.url)
-						.attr("width", image.width)
-						.attr("height", image.height)
-						.addClass('img-fluid');
-				};
-				// Log the Start Time in a p class
-				var startingTime = moment(event.start_time).format("dddd, MMMM Do YYYY, h:mm a");
-				var startTime = $('<p>').html(startingTime);
-				// // log the venue name in a p class
-				var venue = $('<p>').html(event.venue_name);
-				var selectEvent = $('<button>')
-					.html("Select this event!")
-					.addClass("selectEvent btn success-color-dark btn-lg btn-block");
-				// Build the footer out
-				var url = event.url;
-				var aLink = $('<a>')
-					.attr("href", url)
-					.attr("target", "_blank")
-					.text("Learn More Here!");
-				var tdURL = cardFooter.html(aLink);
+	var cardBody = $('<div>').addClass('card-body');
+	var cardFooter = $('<button>')
+		.addClass('btn primary-color btn-lg btn-block')
+		.text("Learn More About This Event");
+	var cardTitle = $('<h5>').addClass("card-title");
+	// making the card header
+	// shortcut variables
+	var performers = event.performers;
+	var artist;
+	// if there is a performers item
+	if (performers) {
+		// and if it is an array
+		if (Array.isArray(performers.performer)) {
+			// set variable artist to the first in the name
+			artist = cardTitle.text(performers.performer[0].name);
+			// if it's not an array, just use the performer name
+		} else { artist = cardTitle.text(performers.performer.name); }
+		// if it is blank, get the title of the event instead
+	} else {
+		artist = cardTitle.text(event.title);
+	}
+	// create an image that has our placeholder info in case there is no image on the call object.  Also create a placeholder variable
+	var image;
+	var tdImage = $('<img>').attr('src', './assets/images/placeholder.png').addClass("img-fluid");
+	// if the image exists on the call
+	if (event.image) {
+		// set the placeholder to have info from the call
+		image = event.image.medium;
+		// update the tdImage accordingly
+		tdImage = $('<img>')
+			.attr("src", image.url)
+			.attr("width", image.width)
+			.attr("height", image.height)
+			.addClass('img-fluid');
+	};
+	// Log the Start Time in a p class after formatting with moment.js
+	var startingTime = moment(event.start_time).format("dddd, MMMM Do YYYY, h:mm a");
+	var startTime = $('<p>').html(startingTime);
+	// // log the venue name in a p class
+	var venue = $('<p>').html(event.venue_name);
+	// make a new button
+	var selectEvent = $('<button>')
+		.html("Select this event!")
+		.addClass("selectEvent btn success-color-dark btn-lg btn-block");
+	// Build the footer out
+	var url = event.url;
+	var aLink = $('<a>')
+		.attr("href", url)
+		.attr("target", "_blank")
+		.text("Learn More Here!");
+	var tdURL = cardFooter.html(aLink);
 
-				// build the body of the card
-				cardBody.append(cardTitle, tdImage, venue, startTime, selectEvent, tdURL);
-				// append the card with the body and
-				card.html(cardBody)
-					// give data attributes of lat and long to reference in the second API call later
-					.attr("data-lat", event.latitude)
-					.attr("data-long", event.longitude);
-				// append displayEvents with the new Row
-				$('#eventDump').append(card);
+	// build the body of the card
+	cardBody.append(cardTitle, tdImage, venue, startTime, selectEvent, tdURL);
+	// append the card with the body and
+	card.html(cardBody)
+		// give data attributes of lat and long to reference in the second API call later
+		.attr("data-lat", event.latitude)
+		.attr("data-long", event.longitude);
+	// append the right area with the new card
+	$('#eventDump').append(card);
+};
+// build our loadGif item as a Row with the loading.gif in it
+var loadGifDiv = $('<div>')
+	.addClass("loadingGif")
+	.html(
+	$('<div>')
+		.html(
+		$('<img>')
+			.attr('src', './assets/images/loading.gif')
+			.addClass('whiteBG')
+		));
+
+// function to have a loading Gif
+function loadingGif(div) {
+
+	div.append(loadGifDiv);
 }
-
 // on load of the document
 $(document).ready(function () {
 	$(function () {
@@ -191,18 +206,21 @@ $(document).ready(function () {
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()
 	})
-
+	//Bootstrap Calender Picker -- https://github.com/uxsolutions/bootstrap-datepicker//
+	$('#sandbox-container .input-group.date').datepicker({
+	});
+	// end calender
 	// add event listener to the btnStart
 	$('#btnStart').on("click", function () {
 		// keep it from submitting blank
 		event.preventDefault();
 		// add a loading gif
 		$('#eventDump').empty();
-		checkClass();
-		// save the information in future variables
+		loadingGif($('#eventDump'));
+		// save the information from the form in variables
 		eventLoc = $('#location').val();
 		datePicker = $('#datePicker').val();
-// item for running the API call
+		// item for running the API call
 		var oArgs = {
 			app_key: "dvq7JdvxVKZGZhLq",
 			where: eventLoc,
@@ -212,11 +230,20 @@ $(document).ready(function () {
 		}
 		// the API call
 		EVDB.API.call("/events/search", oArgs, function (oData) {
+			// shortcut variable
 			var eventArray = oData.events.event;
 			console.log(eventArray);
+			// run a for loop to get 12 objects on the page
 			for (var i = 0; i < 12; i++) {
-				cardFactoryEvents(eventArray[i]);
-			};
+				if (i < 11) {
+					// run the cardFactoryEvents function on eventArray at each iteration
+					cardFactoryEvents(eventArray[i]);
+					// on the last iteration remove the loadingGif
+				} else {
+					cardFactoryEvents(eventArray[i])
+					$('.loadingGif').remove();
+				}
+			}
 		});
 	});
 	// end of the page function
