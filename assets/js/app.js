@@ -19,15 +19,16 @@ var map;
 
 
 $(document).on("click", ".selectEvent", function () {
+	loadingGif($('#placeDump'));
+	$('#eventDump').addClass('smallEvents');
+	// scroll us to the location
+	scrollToFunction(700, 1000)
 	var longitude = $(this).attr("data-long");
 	var latitude = $(this).attr("data-lat");
 	var lat = parseFloat(latitude);
 	var lng = parseFloat(longitude);
-	console.log(lat);
-	console.log(lng);
 	// Create the map
 	var startLoc = { lat, lng };
-	console.log(startLoc);
 	map = new google.maps.Map(document.getElementById('mapDump'), {
 		center: startLoc,
 		zoom: 17
@@ -35,12 +36,13 @@ $(document).on("click", ".selectEvent", function () {
 
 	//Create the places service
 	var service = new google.maps.places.PlacesService(map);
-
+	var searchResults;
 	// Perform a nearby search
 	service.nearbySearch(
 		{ location: startLoc, radius: 1500, type: ['restaurant'] },
 		function (results, status, pagination) {
 			if (status !== 'OK') return;
+<<<<<<< HEAD
 			console.log(results);
 			createCardPlaces(results);
 			// createMarkers(results);
@@ -84,6 +86,20 @@ $(document).on("click", ".selectEvent", function () {
 	// 	map.fitBounds(bounds);
 	// }
 })
+=======
+			searchResults = results;
+			// console.log(searchResults);	
+			for (var i = 0; i < 12 ; i ++){
+				if (i <11){
+					cardFactoryPlaces(searchResults[i]);
+				}else{
+					cardFactoryPlaces(searchResults[i])
+					$('.loadingGif').remove();
+				}
+			}
+		})
+});
+>>>>>>> 0644ff55b879f45e327f0b4647bd37f093c87b8f
 
 // globally scoped variables
 var eventLoc;
@@ -196,12 +212,28 @@ function cardFactoryEvents(event) {
 var loadGifDiv = $('<div>')
 	.addClass("loadingGif")
 	.html(
-		$('<div>')
-			.html(
-				$('<img>')
-					.attr('src', './assets/images/loading.gif')
-					.addClass('whiteBG')
-			));
+	$('<div>')
+		.html(
+		$('<img>')
+			.attr('src', './assets/images/loading.gif')
+			.addClass('whiteBG')
+		));
+// build out the places
+function cardFactoryPlaces(event) {
+	// variables to put data on the page
+	var card = $('<div>').addClass('card event animated pulse');
+	var cardBody = $('<div>').addClass('card-body');
+	var cardTitle = $('<h5>').addClass("card-title");
+	// grab info from the api call on the iteration
+	cardTitle.text(event.name)
+	// var hoursOpen = $('<p>').text(event.opening_hours);
+	var rating = $('<p>').text("Rating: " + event.rating);
+	// append cardBody with the info we're looking at
+	cardBody.html(rating);
+
+	card.append(cardTitle, cardBody);
+	$('#placeDump').append(card);
+}
 
 // function to have a loading Gif
 function loadingGif(div) {
@@ -209,6 +241,7 @@ function loadingGif(div) {
 }
 // on load of the document
 $(document).ready(function () {
+
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()
 	})
@@ -222,39 +255,46 @@ $(document).ready(function () {
 	// end calender
 	// add event listener to the btnStart
 	$('#btnStart').on("click", function () {
-		// keep it from submitting blank
-		event.preventDefault();
-		// add a loading gif
-		$('#eventDump').empty();
-		loadingGif($('#eventDump'));
-		// save the information from the form in variables
-		eventLoc = $('#location').val();
-		datePicker = $('#datePicker').val();
-		// item for running the API call
-		var oArgs = {
-			app_key: "dvq7JdvxVKZGZhLq",
-			where: eventLoc,
-			"date": datePicker,
-			page_size: 12,
-			sort_order: "popularity",
-		}
-		// the API call
-		EVDB.API.call("/events/search", oArgs, function (oData) {
-			// shortcut variable
-			var eventArray = oData.events.event;
-			console.log(eventArray);
-			// run a for loop to get 12 objects on the page
-			for (var i = 0; i < 12; i++) {
-				if (i < 11) {
-					// run the cardFactoryEvents function on eventArray at each iteration
-					cardFactoryEvents(eventArray[i]);
-					// on the last iteration remove the loadingGif
-				} else {
-					cardFactoryEvents(eventArray[i])
-					$('.loadingGif').remove();
-				}
+		var valiDate = $('#datePicker').val();
+		var valiLocate = $('#location').val();
+		if (valiLocate === '') {
+		} else if (valiDate === '') {
+		} else {
+			// keep it from submitting blank
+			event.preventDefault();
+			// add a loading gif
+			$('#eventDump').empty();
+			loadingGif($('#eventDump'));
+			// save the information from the form in variables
+			eventLoc = $('#location').val();
+			datePicker = $('#datePicker').val();
+			// item for running the API call
+			var oArgs = {
+				app_key: "dvq7JdvxVKZGZhLq",
+				where: eventLoc,
+				"date": datePicker,
+				page_size: 12,
+				sort_order: "popularity",
 			}
-		});
+			// the API call
+			EVDB.API.call("/events/search", oArgs, function (oData) {
+				// shortcut variable
+				var eventArray = oData.events.event;
+				console.log(eventArray);
+				// run a for loop to get 12 objects on the page
+				for (var i = 0; i < 12; i++) {
+					if (i < 11) {
+						// run the cardFactoryEvents function on eventArray at each iteration
+						cardFactoryEvents(eventArray[i]);
+						// on the last iteration remove the loadingGif
+					} else {
+						cardFactoryEvents(eventArray[i])
+						$('.loadingGif').remove();
+					}
+				}
+			});
+		}
+
 
 	});
 	// on click of the resetBtn
