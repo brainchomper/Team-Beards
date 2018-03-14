@@ -252,6 +252,7 @@ $(document).ready(function () {
 	$('#resetBtn').click(function () {
 		emptyForm();
 		scrollToFunction(0, 500);
+		$('#eventDump').html('<a name="events"></a>')
 	});
 	// end of the page function
 });
