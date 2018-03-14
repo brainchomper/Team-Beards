@@ -12,6 +12,9 @@
 	<script src="./assets/js/jquery-3.3.1.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+	<link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon">
+<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
 	<title>Plan Your Night Out</title>
 </head>
@@ -51,7 +54,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-lg">Location</span>
 								</div>
-								<input type="text" class="form-control hoverable" autofocus aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="location">
+								<input type="text" class="form-control hoverable" autofocus aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="location" required>
 							</div>
 							<p></p>
 							<div class="input-group date" data-provide="datepicker">
@@ -60,7 +63,7 @@
 										<i class="far fa-calendar-plus"></i>
 									</span>
 								</div>
-								<input type="text" class="form-control" id="datePicker">
+								<input type="text" class="form-control hoverable" id="datePicker" required>
 								<span class="input-group-addon "></span>
 							</div>
 							<p></p>
@@ -75,7 +78,6 @@
 							</div>
 
 					</div>
-
 					<div class="text-center">
 						<button type="submit" class="btn btn-primary btn-lg btn-block " id="btnStart">Lets Get Started!</button>
 					</div>
@@ -106,10 +108,7 @@
 	
 
 		</div>
-		<!-- container3 -->
-
-
-		<!-- container4 -->
+		<!-- end container3 -->
 
 		<!-- end container fluid -->
 	</div>
@@ -125,7 +124,7 @@
 	<script src="./assets/js/app.js"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo1RTMVe5ajgFclRK2kCqc99xyBZ9gOLg&libraries=places&callback=activatePlacesSearch"></script>
 	<!-- moment.js -->
-	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
 </body>
 
 </html>
