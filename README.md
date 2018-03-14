@@ -7,38 +7,11 @@
   John Stuart,
   Kevin Smith
 ---
-## APIs Used
-  [Google Locations:] (https://developers.google.com/places/)
-      API Key: AIzaSyCuqtmYRp2PRxve9eVhJ3u1D1Ohxr5V81Y
-
-Google Places-
-
-  [Walk Score:] (https://www.walkscore.com/professional/api.php)
-
-Eventful-
-
-BootStrap DatePicker-
-
----
-## Breakdown of Tasks
-### HTML Framework & CSS
-Kevin
-1. Find events / show old searches
-2. List of Events
-		a. Date range
-		b. Interests
-				Bar
-				restaurant
-3. Show list of events
-4. Window with map and list of venues and places
-
-### Javascript
-Onclick events
-Modal Event 
-
-### API
-  Get Event Location
-  Find Events Nearby
-  Locate Activities Nearby
-
-
+## APIs / Librarys Used
+  [Google Places:] (https://developers.google.com/places/)
+  [Google Maps:] (https://developers.google.com/maps)
+  [Eventful:] (http://api.eventful.com/)
+	[Moment.JS:] (https://momentjs.com/)
+	[Bootsrtap 4:] (https://getbootstrap.com/)
+	[MDBootstrap:] (https://mdbootstrap.com/)
+	[Bootstrap Date Picker:] (https://bootstrap-datepicker.readthedocs.io/en/latest/)
