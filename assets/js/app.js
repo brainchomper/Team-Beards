@@ -97,7 +97,7 @@ $(document).ready(function () {
 		$('#mapDump').hide();
 		$('#crapDump').hide();
 	});
-	// end of the page function
+
 });
 
 // // AutoComplete Location Search
@@ -166,7 +166,7 @@ function cardFactoryEvents(event) {
 			.addClass('img-fluid');
 	};
 	// Log the Start Time in a p class after formatting with moment.js
-	var startingTime = moment(event.start_time).format("dddd, MMMM Do YYYY, h:mm a");
+	var startingTime = moment(event.start_time).format("MMMM Do YYYY, h:mm:ss a");
 	var startTime = $('<p>').html(startingTime);
 	// // log the venue name in a p class
 	var venue = $('<p>').html(event.venue_name);
