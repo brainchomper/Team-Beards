@@ -70,51 +70,6 @@ function apiRestaurant(event, j) {
 		{ location: startLoc, radius: 1500, type: ['restaurant'] },
 		function (results, status, pagination) {
 			if (status !== 'OK') return;
-<<<<<<< HEAD
-			console.log(results);
-			createCardPlaces(results);
-			// createMarkers(results);
-		}
-
-	)
-
-	function createCardPlaces(places) {
-		for (var i = 0; i < places.length; i++) {
-			console.log(places[i].name, places[i].rating, places[i].opening_hours);
-		}
-	}
-
-	// function createMarkers(place) {
-	// 	var bounds = new google.maps.LatLngBounds();
-	// 	var placesList = document.getElementById('placeDump');
-	// 	console.log(placesList);
-
-	// 	for (var i = 0, place; place = place[i]; i++) {
-	// 		var picture = {
-	// 			url: place.icon,
-	// 			size: new google.maps.Size(71, 71),
-	// 			origin: new google.maps.Point(0, 0),
-	// 			anchor: new google.maps.Point(17, 34),
-	// 			scaledSize: new google.maps.Size(25, 25)
-	// 		};
-
-	// 		var marker = new google.maps.Marker({
-	// 			map: map,
-	// 			icon: image,
-	// 			title: place, name,
-	// 			position: place.geometry.location
-	// 		});
-
-	// 		var li = document.createElement('li');
-	// 		li.textContent = place.name;
-	// 		placesList.appendChild(li); 
-
-	// 		bounds.extend(place.geometry.location);
-	// 	}
-	// 	map.fitBounds(bounds);
-	// }
-})
-=======
 			searchResults = results;
 			// console.log(searchResults);	
 
@@ -145,7 +100,6 @@ if (barCheck && restCheck){
 	apiRestaurant($(this), 12)
 }
 });
->>>>>>> 75ffcd66be2b405a7fd0cf475a0bc2fe1272428e
 
 // globally scoped variables
 var eventLoc;
