@@ -81,8 +81,6 @@ $(document).ready(function () {
 				}
 			});
 		}
-
-
 	});
 
 	function emptyForm() {
@@ -113,17 +111,16 @@ function activatePlacesSearch() {
 $(document).on("click", ".selectEvent", function () {
 	$('#mapDump').show();
 	$('#crapDump').show();
-	loadingGif($('#placeDump'));
 	$('#eventDump').addClass('smallEvents');
 	// scroll us to the location
 	scrollToFunction(700, 1000)
 	if (barCheck && restCheck) {
-		apiBar($(this), 6);
-		apiRestaurant($(this), 6)
+		googleAPICall($(this), 'bar', 6);
+		googleAPICall($(this), 'restaurant', 6)
 	} else if (barCheck) {
-		apiBar($(this), 12)
+		googleAPICall($(this), 'bar', 12)
 	} else {
-		apiRestaurant($(this), 12)
+		googleAPICall($(this), 'restaurant', 12)
 	}
 });
 
@@ -221,14 +218,21 @@ function cardFactoryPlaces(event) {
 	var searchButton = $('<button>')
 		.text("Learn More Here")
 		.addClass("btn primary-color btn-lg btn-block");
-	var cost = event.price_level;
+	console.log(cost);
 	var queryURL = $('<a>')
 		.attr("href", ("https://maps.google.com/?q=" + event.name))
 		.attr("target", "_blank")
 		.html(searchButton);
+// get the cost as a number then check it to update the div
+	var cost = parseInt(event.price_level);
+	var printCost;
+	if (cost === 3){ printCost = $('<p>').text('Price Range: $$$')}
+	else if (cost === 2) { printCost = $('<p>').text('Price Range: $$')}
+	else if (cost === 1){ printCost = $('<p>').text('Price Range: $')}
+	else {printCost = $('<p>').text('Price Range Unavailable')}
 
 	// append cardBody with the info we're looking at
-	cardBody.append(cardTitle, rating, queryURL);
+	cardBody.append(cardTitle, rating, printCost, queryURL);
 
 	card.append(cardBody);
 	$('#placeDump').append(card);
@@ -242,7 +246,8 @@ function loadingGif(div) {
 //Bar and Restaurant Card Factory //
 //to be added to page when select event is chosen//
 //also adds map to mapDump//
-function apiBar(event, j) {
+// API call based on an event, searchTerm and how many times you want it to append to the page
+function googleAPICall(event, searchTerm, loops) {
 	var longitude = event.attr("data-long");
 	var latitude = event.attr("data-lat");
 	console.log(longitude, latitude);
@@ -260,48 +265,13 @@ function apiBar(event, j) {
 	var searchResults;
 	// Perform a nearby search
 	service.nearbySearch(
-		{ location: startLoc, radius: 1500, type: ['bar'] },
+		{ location: startLoc, radius: 1500, type: [searchTerm] },
 		function (results, status, pagination) {
 			if (status !== 'OK') return;
 			searchResults = results;
 			// console.log(searchResults);	
-			for (var i = 0; i < j; i++) {
-				if (i < j) {
-					cardFactoryPlaces(searchResults[i]);
-				} else {
-					cardFactoryPlaces(searchResults[i])
-					$('.loadingGif').remove();
-				}
-			}
-		})
-};
-function apiRestaurant(event, j) {
-	var longitude = event.attr("data-long");
-	var latitude = event.attr("data-lat");
-	console.log(longitude, latitude);
-	var lat = parseFloat(latitude);
-	var lng = parseFloat(longitude);
-	// Create the map
-	var startLoc = { lat, lng };
-	map = new google.maps.Map(document.getElementById('mapDump'), {
-		center: startLoc,
-		zoom: 17
-	});
-	// End B & R card factory//
-
-	//Create the places service
-	var service = new google.maps.places.PlacesService(map);
-	var searchResults;
-	// Perform a nearby search
-	service.nearbySearch(
-		{ location: startLoc, radius: 1500, type: ['restaurant'] },
-		function (results, status, pagination) {
-			if (status !== 'OK') return;
-			searchResults = results;
-			// console.log(searchResults);	
-
-			for (var i = 0; i < j; i++) {
-				if (i < j) {
+			for (var i = 0; i < loops; i++) {
+				if (i < loops) {
 					cardFactoryPlaces(searchResults[i]);
 				} else {
 					cardFactoryPlaces(searchResults[i])
