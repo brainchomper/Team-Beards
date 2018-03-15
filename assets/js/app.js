@@ -11,7 +11,7 @@
 // globally scoped variables
 var eventLoc;
 var datePicker;
-var isClass = false;
+var classCheck = false;
 var barCheck = false;
 var restCheck = false;
 var map;
@@ -33,6 +33,10 @@ $(document).ready(function () {
 	// end calender
 	// add event listener to the btnStart
 	$('#btnStart').on("click", function () {
+		if (classCheck) {
+			$('#eventDump').removeClass('smallEvents');
+			classCheck = false;
+		}
 		// check box listener for api call
 		if ($('#bar').prop('checked')) {
 			barCheck = true;
@@ -67,7 +71,6 @@ $(document).ready(function () {
 			EVDB.API.call("/events/search", oArgs, function (oData) {
 				// shortcut variable
 				var eventArray = oData.events.event;
-				console.log(eventArray);
 				// run a for loop to get 12 objects on the page
 				for (var i = 0; i < 12; i++) {
 					if (i < 11) {
@@ -96,6 +99,12 @@ $(document).ready(function () {
 		$('#placeDump').html('');
 		$('#mapDump').hide();
 		$('#crapDump').hide();
+		$('#restaurant').prop("checked", false);
+		$('#bar').prop("checked", false);
+		if (classCheck) {
+			$('#eventDump').removeClass('smallEvents');
+			classCheck = false;
+		}
 	});
 
 });
@@ -111,13 +120,20 @@ function activatePlacesSearch() {
 $(document).on("click", ".selectEvent", function () {
 	$('#mapDump').show();
 	$('#crapDump').show();
-	$('#eventDump').addClass('smallEvents');
+	$('#placeDump').empty();
+	// add the small events class if not present
+	if (!classCheck) {
+		$('#eventDump').addClass('smallEvents')
+		classCheck = true;
+	}
 	// scroll us to the location
 	scrollToFunction(700, 1000)
 	if (barCheck && restCheck) {
+		$('#cHeader').text('Bars & Restaurants Near Your Event')
 		googleAPICall($(this), 'bar', 6);
 		googleAPICall($(this), 'restaurant', 6)
 	} else if (barCheck) {
+		$('#cHeader').text('Bars Near Your Event')
 		googleAPICall($(this), 'bar', 12)
 	} else {
 		googleAPICall($(this), 'restaurant', 12)
@@ -196,15 +212,14 @@ function cardFactoryEvents(event) {
 var loadGifDiv = $('<div>')
 	.addClass("loadingGif")
 	.html(
-		$('<div>')
-			.html(
-				$('<img>')
-					.attr('src', './assets/images/loading.gif')
-					.addClass('whiteBG')
-			));
+	$('<div>')
+		.html(
+		$('<img>')
+			.attr('src', './assets/images/loading.gif')
+			.addClass('whiteBG')
+		));
 // build out the places
 function cardFactoryPlaces(event) {
-	console.log("event", event)
 	// variables to put data on the page
 	var card = $('<div>').addClass('card event animated pulse');
 	var cardBody = $('<div>').addClass('card-body');
@@ -218,21 +233,21 @@ function cardFactoryPlaces(event) {
 	var searchButton = $('<button>')
 		.text("Learn More Here")
 		.addClass("btn primary-color btn-lg btn-block");
-	console.log(cost);
 	var queryURL = $('<a>')
 		.attr("href", ("https://maps.google.com/?q=" + event.name))
 		.attr("target", "_blank")
 		.html(searchButton);
-// get the cost as a number then check it to update the div
+	// get the cost as a number then check it to update the div
 	var cost = parseInt(event.price_level);
 	var printCost;
-	if (cost === 3){ printCost = $('<p>').text('Price Range: $$$')}
-	else if (cost === 2) { printCost = $('<p>').text('Price Range: $$')}
-	else if (cost === 1){ printCost = $('<p>').text('Price Range: $')}
-	else {printCost = $('<p>').text('Price Range Unavailable')}
+	if (cost === 3) { printCost = $('<p>').text('Price Range: $$$') }
+	else if (cost === 2) { printCost = $('<p>').text('Price Range: $$') }
+	else if (cost === 1) { printCost = $('<p>').text('Price Range: $') }
+	else { printCost = $('<p>').text('Price Range Unavailable') }
+	var placeAddress = $('<p>').text(event.vicinity);
 
 	// append cardBody with the info we're looking at
-	cardBody.append(cardTitle, rating, printCost, queryURL);
+	cardBody.append(cardTitle, placeAddress, rating, printCost, queryURL);
 
 	card.append(cardBody);
 	$('#placeDump').append(card);
@@ -250,7 +265,6 @@ function loadingGif(div) {
 function googleAPICall(event, searchTerm, loops) {
 	var longitude = event.attr("data-long");
 	var latitude = event.attr("data-lat");
-	console.log(longitude, latitude);
 	var lat = parseFloat(latitude);
 	var lng = parseFloat(longitude);
 	// Create the map
@@ -269,7 +283,6 @@ function googleAPICall(event, searchTerm, loops) {
 		function (results, status, pagination) {
 			if (status !== 'OK') return;
 			searchResults = results;
-			// console.log(searchResults);	
 			for (var i = 0; i < loops; i++) {
 				if (i < loops) {
 					cardFactoryPlaces(searchResults[i]);
