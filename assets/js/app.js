@@ -99,7 +99,7 @@ $(document).ready(function () {
 		$('#mapDump').hide();
 		$('#crapDump').hide();
 	});
-	// end of the page function
+
 });
 
 // // AutoComplete Location Search
