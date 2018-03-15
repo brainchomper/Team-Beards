@@ -81,6 +81,8 @@ $(document).ready(function () {
 				}
 			});
 		}
+
+
 	});
 
 	function emptyForm() {
@@ -111,16 +113,17 @@ function activatePlacesSearch() {
 $(document).on("click", ".selectEvent", function () {
 	$('#mapDump').show();
 	$('#crapDump').show();
+	loadingGif($('#placeDump'));
 	$('#eventDump').addClass('smallEvents');
 	// scroll us to the location
 	scrollToFunction(700, 1000)
 	if (barCheck && restCheck) {
-		googleAPICall($(this), 'bar', 6);
-		googleAPICall($(this), 'restaurant', 6)
+		apiBar($(this), 6);
+		apiRestaurant($(this), 6)
 	} else if (barCheck) {
-		googleAPICall($(this), 'bar', 12)
+		apiBar($(this), 12)
 	} else {
-		googleAPICall($(this), 'restaurant', 12)
+		apiRestaurant($(this), 12)
 	}
 });
 
@@ -202,7 +205,7 @@ var loadGifDiv = $('<div>')
 					.attr('src', './assets/images/loading.gif')
 					.addClass('whiteBG')
 			));
-// build out the places
+// build out the events
 function cardFactoryPlaces(event) {
 	console.log("event", event)
 	// variables to put data on the page
@@ -218,21 +221,14 @@ function cardFactoryPlaces(event) {
 	var searchButton = $('<button>')
 		.text("Learn More Here")
 		.addClass("btn primary-color btn-lg btn-block");
-	console.log(cost);
+	var cost = event.price_level;
 	var queryURL = $('<a>')
 		.attr("href", ("https://maps.google.com/?q=" + event.name))
 		.attr("target", "_blank")
 		.html(searchButton);
-// get the cost as a number then check it to update the div
-	var cost = parseInt(event.price_level);
-	var printCost;
-	if (cost === 3){ printCost = $('<p>').text('Price Range: $$$')}
-	else if (cost === 2) { printCost = $('<p>').text('Price Range: $$')}
-	else if (cost === 1){ printCost = $('<p>').text('Price Range: $')}
-	else {printCost = $('<p>').text('Price Range Unavailable')}
 
 	// append cardBody with the info we're looking at
-	cardBody.append(cardTitle, rating, printCost, queryURL);
+	cardBody.append(cardTitle, rating, queryURL);
 
 	card.append(cardBody);
 	$('#placeDump').append(card);
@@ -246,8 +242,7 @@ function loadingGif(div) {
 //Bar and Restaurant Card Factory //
 //to be added to page when select event is chosen//
 //also adds map to mapDump//
-// API call based on an event, searchTerm and how many times you want it to append to the page
-function googleAPICall(event, searchTerm, loops) {
+function apiBar(event, j) {
 	var longitude = event.attr("data-long");
 	var latitude = event.attr("data-lat");
 	console.log(longitude, latitude);
@@ -265,13 +260,13 @@ function googleAPICall(event, searchTerm, loops) {
 	var searchResults;
 	// Perform a nearby search
 	service.nearbySearch(
-		{ location: startLoc, radius: 1500, type: [searchTerm] },
+		{ location: startLoc, radius: 1500, type: ['bar'] },
 		function (results, status, pagination) {
 			if (status !== 'OK') return;
 			searchResults = results;
 			// console.log(searchResults);	
-			for (var i = 0; i < loops; i++) {
-				if (i < loops) {
+			for (var i = 0; i < j; i++) {
+				if (i < j) {
 					cardFactoryPlaces(searchResults[i]);
 				} else {
 					cardFactoryPlaces(searchResults[i])
@@ -280,6 +275,41 @@ function googleAPICall(event, searchTerm, loops) {
 			}
 		})
 };
+function apiRestaurant(event, j) {
+	var longitude = event.attr("data-long");
+	var latitude = event.attr("data-lat");
+	console.log(longitude, latitude);
+	var lat = parseFloat(latitude);
+	var lng = parseFloat(longitude);
+	// Create the map
+	var startLoc = { lat, lng };
+	map = new google.maps.Map(document.getElementById('mapDump'), {
+		center: startLoc,
+		zoom: 17
+	});
+	
+		//Create the places service
+	var service = new google.maps.places.PlacesService(map);
+		// Perform a nearby search
+	service.nearbySearch(
+		{ location: startLoc, radius: 1500, type: ['restaurant'] },
+		function (results, status, pagination) {
+			if (status !== 'OK') return;
+			searchResults = results;
+			// console.log(searchResults);	
+			
+			for (var i = 0; i < j; i++) {
+				if (i < j) {
+					cardFactoryPlaces(searchResults[i]);
+				} else {
+					var searchResults;
+					cardFactoryPlaces(searchResults[i])
+					$('.loadingGif').remove();
+				}
+			}
+		})
+	};
+	// End B & R card factory//
 
 // function to scroll through the page cleanly 
 //based on 2 passed variables for where we want to go and how long
