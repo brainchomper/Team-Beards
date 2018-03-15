@@ -8,132 +8,123 @@
 // #mapDump = data from google places
 
 //-------------------------------------//
-// // AutoComplete - Joe
-function activatePlacesSearch() {
-	var input = document.getElementById('location');
-	var autocomplete = new google.maps.places.Autocomplete(input);
-}
-// End AutoComplete ADD
-
-var map;
-function apiBar(event, j) {
-	var longitude = event.attr("data-long");
-	var latitude = event.attr("data-lat");
-	console.log(longitude, latitude);
-	var lat = parseFloat(latitude);
-	var lng = parseFloat(longitude);
-	// Create the map
-	var startLoc = { lat, lng };
-	map = new google.maps.Map(document.getElementById('mapDump'), {
-		center: startLoc,
-		zoom: 17
-	});
-
-	//Create the places service
-	var service = new google.maps.places.PlacesService(map);
-	var searchResults;
-	// Perform a nearby search
-	service.nearbySearch(
-		{ location: startLoc, radius: 1500, type: ['bar'] },
-		function (results, status, pagination) {
-			if (status !== 'OK') return;
-			searchResults = results;
-			// console.log(searchResults);	
-			for (var i = 0; i < j; i++) {
-				if (i < j) {
-					cardFactoryPlaces(searchResults[i]);
-				} else {
-					cardFactoryPlaces(searchResults[i])
-					$('.loadingGif').remove();
-				}
-			}
-		})
-};
-function apiRestaurant(event, j) {
-	var longitude = event.attr("data-long");
-	var latitude = event.attr("data-lat");
-	console.log(longitude, latitude);
-	var lat = parseFloat(latitude);
-	var lng = parseFloat(longitude);
-	// Create the map
-	var startLoc = { lat, lng };
-	map = new google.maps.Map(document.getElementById('mapDump'), {
-		center: startLoc,
-		zoom: 17
-	});
-
-	//Create the places service
-	var service = new google.maps.places.PlacesService(map);
-	var searchResults;
-	// Perform a nearby search
-	service.nearbySearch(
-		{ location: startLoc, radius: 1500, type: ['restaurant'] },
-		function (results, status, pagination) {
-			if (status !== 'OK') return;
-			searchResults = results;
-			// console.log(searchResults);	
-
-			for (var i = 0; i < j; i++) {
-				if (i < j) {
-					cardFactoryPlaces(searchResults[i]);
-				} else {
-					cardFactoryPlaces(searchResults[i])
-					$('.loadingGif').remove();
-				}
-			}
-		})
-};
-
-$(document).on("click", ".selectEvent", function () {
-	$('#mapDump').show();
-	$('#crapDump').show();
-	loadingGif($('#placeDump'));
-	$('#eventDump').addClass('smallEvents');
-	// scroll us to the location
-	scrollToFunction(700, 1000)
-if (barCheck && restCheck){
-	apiBar($(this), 6);
-	apiRestaurant($(this), 6)
-}else if (barCheck) {
-	apiBar($(this), 12)
-}else  {
-	apiRestaurant($(this), 12)
-}
-});
-
 // globally scoped variables
 var eventLoc;
 var datePicker;
 var isClass = false;
 var barCheck = false;
 var restCheck = false;
+var map;
 
-function emptyForm() {
-	$('#location').val('');
-	$('#datePicker').val('');
-}
-// function to scroll through the page cleanly based on 2 passed variables for where we want to go and how long
-function scrollToFunction(destination, runTime) {
-	// take the page location and store in variable
-	var startingY = window.pageYOffset;
-	// variable that compares where we are on the page to where we were
-	var diff = destination - startingY;
-	var start;
-	window.requestAnimationFrame(function step(timestamp) {
-		if (!start) start = timestamp;
-		// Elapsed milliseconds since start of scrolling.
-		var time = timestamp - start;
-		// Get percent of completion in range [0, 1].
-		var percent = Math.min(time / runTime, 1);
-		// scroll to the point in the widnow
-		window.scrollTo(0, startingY + diff * percent);
-		// Proceed with animation as long as we wanted it to.
-		if (time < runTime) {
-			window.requestAnimationFrame(step);
-		}
+// on load of the document
+$(document).ready(function () {
+	$('#mapDump').hide();
+	$('#crapDump').hide();
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
 	})
-}
+	// Tooltips Initialization
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
+	//Bootstrap Calender Picker -- https://github.com/uxsolutions/bootstrap-datepicker//
+	$('#sandbox-container .input-group.date').datepicker({
+	});
+	// end calender
+	// add event listener to the btnStart
+	$('#btnStart').on("click", function () {
+		// check box listener for api call
+		if ($('#bar').prop('checked')) {
+			barCheck = true;
+		};
+		if ($('#restaurant').prop('checked')) {
+			restCheck = true;
+		};
+		// end checkbox listener
+		// data validation for lacation and datepicker
+		var valiDate = $('#datePicker').val();
+		var valiLocate = $('#location').val();
+		if (valiLocate === '') {
+		} else if (valiDate === '') {
+		} else {
+			// keep it from submitting blank
+			event.preventDefault();
+			// add a loading gif
+			$('#eventDump').empty();
+			loadingGif($('#eventDump'));
+			// save the information from the form in variables
+			eventLoc = $('#location').val();
+			datePicker = $('#datePicker').val();
+			// item for running the API call
+			var oArgs = {
+				app_key: "dvq7JdvxVKZGZhLq",
+				where: eventLoc,
+				"date": datePicker,
+				page_size: 12,
+				sort_order: "popularity",
+			}
+			// the API call
+			EVDB.API.call("/events/search", oArgs, function (oData) {
+				// shortcut variable
+				var eventArray = oData.events.event;
+				console.log(eventArray);
+				// run a for loop to get 12 objects on the page
+				for (var i = 0; i < 12; i++) {
+					if (i < 11) {
+						// run the cardFactoryEvents function on eventArray at each iteration
+						cardFactoryEvents(eventArray[i]);
+						// on the last iteration remove the loadingGif
+					} else {
+						cardFactoryEvents(eventArray[i])
+						$('.loadingGif').remove();
+					}
+				}
+			});
+		}
+	});
 
+	function emptyForm() {
+		$('#location').val('');
+		$('#datePicker').val('');
+	}
+
+	// on click of the resetBtn
+	$('#resetBtn').click(function () {
+		emptyForm();
+		scrollToFunction(0, 500);
+		$('#eventDump').html('<a name="events"></a>')
+		$('#placeDump').html('');
+		$('#mapDump').hide();
+		$('#crapDump').hide();
+	});
+	// end of the page function
+});
+
+// // AutoComplete Location Search
+function activatePlacesSearch() {
+	var input = document.getElementById('location');
+	var autocomplete = new google.maps.places.Autocomplete(input);
+}
+// End AutoComplete 
+
+//Event Select Function//
+$(document).on("click", ".selectEvent", function () {
+	$('#mapDump').show();
+	$('#crapDump').show();
+	$('#eventDump').addClass('smallEvents');
+	// scroll us to the location
+	scrollToFunction(700, 1000)
+	if (barCheck && restCheck) {
+		googleAPICall($(this), 'bar', 6);
+		googleAPICall($(this), 'restaurant', 6)
+	} else if (barCheck) {
+		googleAPICall($(this), 'bar', 12)
+	} else {
+		googleAPICall($(this), 'restaurant', 12)
+	}
+});
+
+//Card Factory//
 function cardFactoryEvents(event) {
 	// scroll to point of top of div
 	scrollToFunction(400, 500);
@@ -227,14 +218,21 @@ function cardFactoryPlaces(event) {
 	var searchButton = $('<button>')
 		.text("Learn More Here")
 		.addClass("btn primary-color btn-lg btn-block");
-	var cost = event.price_level;
+	console.log(cost);
 	var queryURL = $('<a>')
 		.attr("href", ("https://maps.google.com/?q=" + event.name))
 		.attr("target", "_blank")
 		.html(searchButton);
+// get the cost as a number then check it to update the div
+	var cost = parseInt(event.price_level);
+	var printCost;
+	if (cost === 3){ printCost = $('<p>').text('Price Range: $$$')}
+	else if (cost === 2) { printCost = $('<p>').text('Price Range: $$')}
+	else if (cost === 1){ printCost = $('<p>').text('Price Range: $')}
+	else {printCost = $('<p>').text('Price Range Unavailable')}
 
 	// append cardBody with the info we're looking at
-	cardBody.append(cardTitle, rating, queryURL);
+	cardBody.append(cardTitle, rating, printCost, queryURL);
 
 	card.append(cardBody);
 	$('#placeDump').append(card);
@@ -244,90 +242,68 @@ function cardFactoryPlaces(event) {
 function loadingGif(div) {
 	div.append(loadGifDiv);
 }
-// on load of the document
-$(document).ready(function () {
-	$('#mapDump').hide();
-	$('#crapDump').hide();
-	$(function () {
-		$('[data-toggle="tooltip"]').tooltip()
-	})
-	// Tooltips Initialization
-	$(function () {
-		$('[data-toggle="tooltip"]').tooltip()
-	})
-	//Bootstrap Calender Picker -- https://github.com/uxsolutions/bootstrap-datepicker//
-	$('#sandbox-container .input-group.date').datepicker({
+
+//Bar and Restaurant Card Factory //
+//to be added to page when select event is chosen//
+//also adds map to mapDump//
+// API call based on an event, searchTerm and how many times you want it to append to the page
+function googleAPICall(event, searchTerm, loops) {
+	var longitude = event.attr("data-long");
+	var latitude = event.attr("data-lat");
+	console.log(longitude, latitude);
+	var lat = parseFloat(latitude);
+	var lng = parseFloat(longitude);
+	// Create the map
+	var startLoc = { lat, lng };
+	map = new google.maps.Map(document.getElementById('mapDump'), {
+		center: startLoc,
+		zoom: 17
 	});
-	// end calender
-	// add event listener to the btnStart
-	$('#btnStart').on("click", function () {
-		// check box listener for api call
-		if ($('#bar').prop('checked')) {
-			barCheck = true;
-		};
-		if ($('#restaurant').prop('checked')) {
-			restCheck = true;
-		};
-		// end checkbox listener
-		// data validation for lacation and datepicker
-		var valiDate = $('#datePicker').val();
-		var valiLocate = $('#location').val();
-		if (valiLocate === '') {
-		} else if (valiDate === '') {
-		} else {
-			// keep it from submitting blank
-			event.preventDefault();
-			// add a loading gif
-			$('#eventDump').empty();
-			loadingGif($('#eventDump'));
-			// save the information from the form in variables
-			eventLoc = $('#location').val();
-			datePicker = $('#datePicker').val();
-			// item for running the API call
-			var oArgs = {
-				app_key: "dvq7JdvxVKZGZhLq",
-				where: eventLoc,
-				"date": datePicker,
-				page_size: 12,
-				sort_order: "popularity",
-			}
-			// the API call
-			EVDB.API.call("/events/search", oArgs, function (oData) {
-				// shortcut variable
-				var eventArray = oData.events.event;
-				console.log(eventArray);
-				// run a for loop to get 12 objects on the page
-				for (var i = 0; i < 12; i++) {
-					if (i < 11) {
-						// run the cardFactoryEvents function on eventArray at each iteration
-						cardFactoryEvents(eventArray[i]);
-						// on the last iteration remove the loadingGif
-					} else {
-						cardFactoryEvents(eventArray[i])
-						$('.loadingGif').remove();
-					}
+
+	//Create the places service
+	var service = new google.maps.places.PlacesService(map);
+	var searchResults;
+	// Perform a nearby search
+	service.nearbySearch(
+		{ location: startLoc, radius: 1500, type: [searchTerm] },
+		function (results, status, pagination) {
+			if (status !== 'OK') return;
+			searchResults = results;
+			// console.log(searchResults);	
+			for (var i = 0; i < loops; i++) {
+				if (i < loops) {
+					cardFactoryPlaces(searchResults[i]);
+				} else {
+					cardFactoryPlaces(searchResults[i])
+					$('.loadingGif').remove();
 				}
-			});
+			}
+		})
+};
+
+// function to scroll through the page cleanly 
+//based on 2 passed variables for where we want to go and how long
+function scrollToFunction(destination, runTime) {
+	// take the page location and store in variable
+	var startingY = window.pageYOffset;
+	// variable that compares where we are on the page to where we were
+	var diff = destination - startingY;
+	var start;
+	window.requestAnimationFrame(function step(timestamp) {
+		if (!start) start = timestamp;
+		// Elapsed milliseconds since start of scrolling.
+		var time = timestamp - start;
+		// Get percent of completion in range [0, 1].
+		var percent = Math.min(time / runTime, 1);
+		// scroll to the point in the widnow
+		window.scrollTo(0, startingY + diff * percent);
+		// Proceed with animation as long as we wanted it to.
+		if (time < runTime) {
+			window.requestAnimationFrame(step);
 		}
-		
+	})
+}
 
-	});
-	// Check Box Functions
-	
-
-		// End Checkbox Functions
-
-		// on click of the resetBtn
-		$('#resetBtn').click(function () {
-			emptyForm();
-			scrollToFunction(0, 500);
-			$('#eventDump').html('<a name="events"></a>')
-			$('#placeDump').html('');
-			$('#mapDump').hide();
-			$('#crapDump').hide();
-		});
-		// end of the page function
-	});
 
 
 

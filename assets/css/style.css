@@ -1,34 +1,47 @@
-html{
+html {
 	font-family: 'Roboto', sans-serif;
 }
-a{
+
+a {
 	color: white;
 }
-body{
+
+body {
 	background-image: url("../images/nightlight.jpg");
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
 	background-size: cover;
 }
-.form-check-input{
+
+.startBox {
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+.stickyBtn {
+	position: fixed;
+	bottom: 25px;
+	right: 25px;
+}
+
+.form-check-input {
 	width: 30px;
 	height: 20px;
 }
-.modal-header{
+
+.modal-header {
 	justify-content: center;
 }
-aside{
-	width: 100%;
-}
-.container-fluid{
+
+.container-fluid {
 	width: 80%;
 	margin: auto;
 }
-.container{
+
+.container {
 	background-color: whitesmoke;
 }
-
 
 #mapDump {
 	margin-top: 20px;
@@ -36,38 +49,27 @@ aside{
 	width: 100%;
 }
 
-.startBox{
-	margin-top: 25px;
-	margin-bottom: 25px;
-}
-
-.stickyBtn{
-	position: fixed;
-	bottom: 25px;
-	right: 25px;
-}
-#eventDump,
-#placeDump {
+#eventDump, #placeDump {
 	margin-top: 20px;
-	display:flex;
+	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
 	border-radius: 5px;
 	background: rgba(200, 54, 54, 0);
 }
-.card-title{
-	font-weight: bold;
-}
-.mapDump{
+
+.mapDump {
 	margin: auto;
 	margin-top: 20px;
 }
-.card.event{
-	display:flex;
+
+.card.event {
+	display: flex;
 	justify-content: center;
-	margin:10px;
+	margin: 10px;
 	width: 31%;
 }
+
 .card-body {
 	text-align: center;
 }
@@ -76,38 +78,43 @@ aside{
 	background-color: white;
 	border-radius: 5px;
 	margin: 10px;
-	display:block;
+	display: block;
 }
 
 .smallEvents {
-	overflow-y:auto;
+	overflow-y: auto;
 	height: 317px;
 }
-.textwrite{
+
+.textwrite {
 	text-align: center;
 	color: white;
 }
-.wrap{
+
+.wrap {
 	animation: caret .3s steps(1) infinite;
 }
+
 @keyframes caret {
-  50% {
-    border-color: transparent;
-  }
+	50% {
+		border-color: transparent;
+	}
 }
-@media screen and (max-width: 980px) {	
+
+@media screen and (max-width: 980px) {
 	.container-fluid {
 		width: 100%;
 	}
-	.card.event{
+	.card.event {
 		width: 100%;
 	}
 }
-@media screen and (max-width: 640px) {	
+
+@media screen and (max-width: 640px) {
 	.container-fluid {
 		width: 100%;
 	}
-	.card.event{
+	.card.event {
 		width: 100%;
 	}
 }

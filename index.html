@@ -13,8 +13,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 	<link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon">
-<link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon">
-<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+	<link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon">
+	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
 	<title>Plan Your Night Out</title>
 </head>
@@ -37,9 +37,9 @@
 					<div class="card-body">
 
 						<!-- Form -->
-						<form name="">
+						<form>
 							<!-- Heading -->
-
+							<!-- typewriter text -->
 							<div class="textwrite">
 								<h2 class="dark-grey-text text-center">
 									<p class="typewrite" data-period="500" data-type='[ "Want To See A Show?", "Let&#8217s Grab A Drink", "Let&#8217s Go Out!" ]'>
@@ -47,16 +47,18 @@
 									</p>
 								</h2>
 							</div>
-
+							<!-- end typewriter -->
 							<hr>
-
+							<!-- location picker -->
 							<div class="input-group input-group-lg" id="formID">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-lg">Location</span>
 								</div>
-								<input type="text" class="form-control hoverable" autofocus aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="location" required>
+								<input type="text" class="form-control hoverable" autofocus aria-label="Large" aria-describedby="inputGroup-sizing-sm" id="location"
+								 required>
 							</div>
 							<p></p>
+							<!-- datepicker -->
 							<div class="input-group date" data-provide="datepicker">
 								<div class="input-group-prepend">
 									<span class="input-group-text">
@@ -67,17 +69,20 @@
 								<span class="input-group-addon "></span>
 							</div>
 							<p></p>
+							<!-- bar chkbxk -->
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="checkbox" id="bar" value="bar">
 								<label class="form-check-label" for="bar">Bars Nearby</label>
 							</div>
 							<p></p>
+							<!-- resauraunt chkbx -->
 							<div class="form-check form-check-inline" align="center">
 								<input class="form-check-input" type="checkbox" id="restaurant" value="restaurant">
 								<label class="form-check-label" for="restaurant">Restaurants Nearby</label>
 							</div>
 
 					</div>
+					<!-- startsubmit btn -->
 					<div class="text-center">
 						<button type="submit" class="btn btn-primary btn-lg btn-block " id="btnStart">Lets Get Started!</button>
 					</div>
@@ -88,36 +93,32 @@
 				</div>
 
 			</div>
-			<!--/.Card-->
+			<!--/.Card panel with event locations-->
 
 			<!-- /container1 -->
+			<!-- eventdump -->
 			<div class="container" id="eventDump">
 				<a name="events"></a>
 			</div>
-			<!-- end card -->
+			<!-- end locations eventdump -->
 			<!--/.Panel-->
 
-			<!-- container2 -->
+			<!-- map container -->
 			<div class="container rounded" id="mapDump">
-
-
+				<!-- end map container -->
 			</div>
+			<!-- end map panel -->
 		</div>
+		<!-- Heading to the reseraunt/bars -->
 		<div class="card" id="crapDump">
 			<div class="card-body">
-					<h3>Things To Do!</h3>
+				<h3>Things To Do!</h3>
 			</div>
-	</div>
-		<!-- container3 -->
-		<div class="container rounded" id="placeDump">
-	
-
+			<!-- end crapdump heading -->
 		</div>
-		<!-- end container3 -->
-
-		<!-- end container fluid -->
+		<!-- placedump - Holds all api place data for reseraunts/bars -->
+		<div class="container rounded" id="placeDump">
 	</div>
-	<footer></footer>
 	<script src="./assets/js/popper.min.js"></script>
 	<script src="./assets/js/bootstrap.js"></script>
 	<script src="./assets/js/bootstrap-datepicker.js"></script>
