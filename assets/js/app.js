@@ -316,7 +316,3 @@ function scrollToFunction(destination, runTime) {
 		}
 	})
 }
-
-
-
-
