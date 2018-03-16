@@ -122,6 +122,10 @@ function activatePlacesSearch() {
 $(document).on("click", ".selectEvent", function () {
 	$('#mapDump').show();
 	$('#crapDump').show();
+<<<<<<< HEAD
+=======
+
+>>>>>>> cde678de07a88521a44a618f3ce9bdd002150f82
 	$('#placeDump').empty();
 	// add the small events class if not present
 	if (!classCheck) {
@@ -214,6 +218,10 @@ function cardFactoryEvents(event) {
 var loadGifDiv = $('<div>')
 	.addClass("loadingGif")
 	.html(
+<<<<<<< HEAD
+=======
+
+>>>>>>> cde678de07a88521a44a618f3ce9bdd002150f82
 	$('<div>')
 		.html(
 		$('<img>')
@@ -250,7 +258,11 @@ function cardFactoryPlaces(event) {
 
 	// append cardBody with the info we're looking at
 	cardBody.append(cardTitle, placeAddress, rating, printCost, queryURL);
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> cde678de07a88521a44a618f3ce9bdd002150f82
 	card.append(cardBody);
 	$('#placeDump').append(card);
 }
@@ -284,6 +296,10 @@ function apiBar(event, j) {
 		function (results, status, pagination) {
 			if (status !== 'OK') return;
 			searchResults = results;
+<<<<<<< HEAD
+=======
+
+>>>>>>> cde678de07a88521a44a618f3ce9bdd002150f82
 			for (var i = 0; i < loops; i++) {
 				if (i < loops) {
 					cardFactoryPlaces(searchResults[i]);
