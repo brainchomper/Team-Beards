@@ -84,6 +84,8 @@ $(document).ready(function () {
 				}
 			});
 		}
+
+
 	});
 
 	function emptyForm() {
@@ -106,7 +108,7 @@ $(document).ready(function () {
 			classCheck = false;
 		}
 	});
-	// end of the page function
+
 });
 
 // // AutoComplete Location Search
@@ -120,6 +122,10 @@ function activatePlacesSearch() {
 $(document).on("click", ".selectEvent", function () {
 	$('#mapDump').show();
 	$('#crapDump').show();
+<<<<<<< HEAD
+=======
+
+>>>>>>> cde678de07a88521a44a618f3ce9bdd002150f82
 	$('#placeDump').empty();
 	// add the small events class if not present
 	if (!classCheck) {
@@ -136,7 +142,7 @@ $(document).on("click", ".selectEvent", function () {
 		$('#cHeader').text('Bars Near Your Event')
 		googleAPICall($(this), 'bar', 12)
 	} else {
-		googleAPICall($(this), 'restaurant', 12)
+		apiRestaurant($(this), 12)
 	}
 });
 
@@ -182,7 +188,7 @@ function cardFactoryEvents(event) {
 			.addClass('img-fluid');
 	};
 	// Log the Start Time in a p class after formatting with moment.js
-	var startingTime = moment(event.start_time).format("dddd, MMMM Do YYYY, h:mm a");
+	var startingTime = moment(event.start_time).format("MMMM Do YYYY, h:mm:ss a");
 	var startTime = $('<p>').html(startingTime);
 	// // log the venue name in a p class
 	var venue = $('<p>').html(event.venue_name);
@@ -212,6 +218,10 @@ function cardFactoryEvents(event) {
 var loadGifDiv = $('<div>')
 	.addClass("loadingGif")
 	.html(
+<<<<<<< HEAD
+=======
+
+>>>>>>> cde678de07a88521a44a618f3ce9bdd002150f82
 	$('<div>')
 		.html(
 		$('<img>')
@@ -248,7 +258,11 @@ function cardFactoryPlaces(event) {
 
 	// append cardBody with the info we're looking at
 	cardBody.append(cardTitle, placeAddress, rating, printCost, queryURL);
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> cde678de07a88521a44a618f3ce9bdd002150f82
 	card.append(cardBody);
 	$('#placeDump').append(card);
 }
@@ -261,8 +275,7 @@ function loadingGif(div) {
 //Bar and Restaurant Card Factory //
 //to be added to page when select event is chosen//
 //also adds map to mapDump//
-// API call based on an event, searchTerm and how many times you want it to append to the page
-function googleAPICall(event, searchTerm, loops) {
+function apiBar(event, j) {
 	var longitude = event.attr("data-long");
 	var latitude = event.attr("data-lat");
 	var lat = parseFloat(latitude);
@@ -279,10 +292,14 @@ function googleAPICall(event, searchTerm, loops) {
 	var searchResults;
 	// Perform a nearby search
 	service.nearbySearch(
-		{ location: startLoc, radius: 1500, type: [searchTerm] },
+		{ location: startLoc, radius: 1500, type: ['bar'] },
 		function (results, status, pagination) {
 			if (status !== 'OK') return;
 			searchResults = results;
+<<<<<<< HEAD
+=======
+
+>>>>>>> cde678de07a88521a44a618f3ce9bdd002150f82
 			for (var i = 0; i < loops; i++) {
 				if (i < loops) {
 					cardFactoryPlaces(searchResults[i]);
@@ -293,6 +310,41 @@ function googleAPICall(event, searchTerm, loops) {
 			}
 		})
 };
+function apiRestaurant(event, j) {
+	var longitude = event.attr("data-long");
+	var latitude = event.attr("data-lat");
+	console.log(longitude, latitude);
+	var lat = parseFloat(latitude);
+	var lng = parseFloat(longitude);
+	// Create the map
+	var startLoc = { lat, lng };
+	map = new google.maps.Map(document.getElementById('mapDump'), {
+		center: startLoc,
+		zoom: 17
+	});
+	
+		//Create the places service
+	var service = new google.maps.places.PlacesService(map);
+		// Perform a nearby search
+	service.nearbySearch(
+		{ location: startLoc, radius: 1500, type: ['restaurant'] },
+		function (results, status, pagination) {
+			if (status !== 'OK') return;
+			searchResults = results;
+			// console.log(searchResults);	
+			
+			for (var i = 0; i < j; i++) {
+				if (i < j) {
+					cardFactoryPlaces(searchResults[i]);
+				} else {
+					var searchResults;
+					cardFactoryPlaces(searchResults[i])
+					$('.loadingGif').remove();
+				}
+			}
+		})
+	};
+	// End B & R card factory//
 
 // function to scroll through the page cleanly 
 //based on 2 passed variables for where we want to go and how long
