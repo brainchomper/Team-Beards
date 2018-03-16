@@ -25,4 +25,4 @@
 	
 	[Bootstrap Date Picker:] (https://bootstrap-datepicker.readthedocs.io/en/latest/)
 ---
-	View The App at https://brainchomer/github.io/Team-Beards
+	View The App at (https://brainchomper.github.io/Team-Beards)

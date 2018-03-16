@@ -101,6 +101,8 @@ $(document).ready(function () {
 		$('#placeDump').html('');
 		$('#mapDump').hide();
 		$('#crapDump').hide();
+		$('#restaurant').prop("checked", false);
+		$('#bar').prop("checked", false);
 		if (classCheck) {
 			$('#eventDump').removeClass('smallEvents');
 			classCheck = false;
@@ -350,7 +352,3 @@ function scrollToFunction(destination, runTime) {
 		}
 	})
 }
-
-
-
-
