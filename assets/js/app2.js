@@ -32,7 +32,7 @@ $(document).ready(function () {
 	});
 	// end calender
 	// add event listener to the btnStart
-	$('#btnStart').on("click", function () {
+	$('#btnStart').on("click", function (event) {
 		if (classCheck) {
 			$('#eventDump').removeClass('smallEvents');
 			classCheck = false;
@@ -52,7 +52,7 @@ $(document).ready(function () {
 		} else if (valiDate === '') {
 		} else {
 			// keep it from submitting blank
-			event.preventDefault();
+			event.preventDefault(event);
 			// add a loading gif
 			$('#eventDump').empty();
 			loadingGif($('#eventDump'));
@@ -212,9 +212,10 @@ function cardFactoryEvents(event) {
 	);
 
 	// append the right area with the new card
-	$('#eventDump').append(c.card
-		.html(c.cardBody
-			.append(c.cardTitle, c.tdImage, venue, startTime, selectEvent, c.cardFooter)))
+	$('#eventDump').append(
+		c.card.html(
+			c.cardBody.append(
+				c.cardTitle, c.tdImage, venue, startTime, selectEvent, c.cardFooter)));
 };
 // build our loadGif item as a Row with the loading.gif in it
 var loadGifDiv = $('<div>')
@@ -258,9 +259,6 @@ function cardFactoryPlaces(event) {
 
 	var placeAddress = $('<p>').text(event.vicinity);
 
-	// append cardBody with the info we're looking at
-	c.cardBody;
-
 	$('#placeDump').append(
 	c.card
 	.append(
@@ -273,10 +271,6 @@ function loadingGif(div) {
 	div.append(loadGifDiv);
 }
 
-//Bar and Restaurant Card Factory //
-//to be added to page when select event is chosen//
-//also adds map to mapDump//
-// API call based on an event, searchTerm and how many times you want it to append to the page
 function googleAPICall(event, searchTerm, loops) {
 	var longitude = event.attr("data-long");
 	var latitude = event.attr("data-lat");
